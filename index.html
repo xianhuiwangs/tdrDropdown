@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=9;IE=8;IE=7;IE=EDGE">
+  <meta http-equiv="Access-Control-Allow-Origin" content="*">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <title>Dropdown.js - a lightweight dropdown of jQuery plugins </title>
+  <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+ 	<script src="http://10.130.0.205:8293/resource/metronic/assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="tdrDropDown.css">
+  <script src="tdrDropDown.js"></script>
+  <style>
+    body {
+      width: 80%;
+      margin: 0 auto;
+      padding-bottom: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="">
+    <div class="row">
+		 <div class="col-sm-4">
+    	 <div class="text-info">单选模式，Option渲染</div><br>
+	     <div class="dropdown-sin-1 dropdown-single">
+	          <select placeholder="请选择：测试placeholder"></select>		        
+	        </div>
+	      </div>
+    </div>
+  </form>
+  <script>
+  	$(function(){
+  		$(".dropdown-sin-1").dropdown({
+  			 selectTitle: '请选择品牌',
+  			 input: '<input type="text" maxLength="20" placeholder="请输入品牌">' ,
+  			 searchNoData: '<li style="color:#ddd">查无数据</li>',
+  			 keyword:  $('.dropdown-sin-1 select').text(), //现有的select值
+  			 valueName: "BrandId", //select中OPTION的值
+  			 nameName: "BrandName", //select中option的显示
+  			 ajax:{
+//			 	  	url:'', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
+        		type:"get",  
+    		 		dataType:"json", 
+        		data:{
+        			brandname:'keyword',  
+        			pageindex: 'pageIndex',
+        			pagesize:10
+        		},
+        		success:function(data){
+        			_tdrAjaxdata = data; //将ajax数据存储到当前的dom
+        		}, 
+					  error:function(){ 
+					    console.log("error") 
+					  } 
+        	}
+  		})
+  	});
+ 
+
+  </script>
+</body>
+
+</html>
