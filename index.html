@@ -26,7 +26,7 @@
 		 <div class="col-sm-4">
     	 <div class="text-info">单选模式，Option渲染</div><br>
 	     <div class="dropdown-sin-1 dropdown-single">
-	          <select placeholder="请选择：测试placeholder"></select>		        
+	          <select placeholder="请选择：测试placeholder" multiple></select>		        
 	        </div>
 	      </div>
     </div>
@@ -40,8 +40,9 @@
   			 keyword:  $('.dropdown-sin-1 select').text(), //现有的select值
   			 valueName: "BrandId", //select中OPTION的值
   			 nameName: "BrandName", //select中option的显示
+  			 searchable: true, //查询功能 ,默认为true
   			 ajax:{
-			 	  	url:'', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
+			 	  	url:'http://10.130.0.205:8292/vehiclebrand/getpagedlist', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
         		type:"get",  
     		 		dataType:"json", 
         		data:{
