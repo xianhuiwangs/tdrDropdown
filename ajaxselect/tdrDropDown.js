@@ -3,25 +3,26 @@
  (function ($) {
   'use strict';   
    var settings = { //设置的初始值
-    selectTitle: '请选择'
+    selectTitle: '请选择品牌'
     ,input: '<input type="text" maxLength="20" placeholder="搜索关键词或ID">'
     ,valueName: "value" //select中OPTION的值
-  	,nameName: "name" //select中option的显示  	
-  	,keyword:""
+  	,nameName: "name" //select中option的显示 
+  	,submitValue: "value"//提交时候input的name值  
   	,ismultiterm: true
-		,selectInfo: {//当前select的value值
-  		value: []
-		 	,text: []
-		 }
+	,selectInfo: {//当前select的value值
+		value: []
+	 	,text: []
+	 }
   	,searchable: true//需要查找模糊查询功能
     ,searchNoData: '<li style="color:#ddd">查无数据，换个词儿试试 /(ㄒoㄒ)/~~</li>'
     ,ajax:{}   
     ,ajaxTextInit:{} //ajax的输入值保存
     ,pageIndex:1
+	,keyword:""
   };
 
 	function type(obj){ //检测基本类型
-	return Object.prototype.toString.call(obj);
+		return Object.prototype.toString.call(obj);
 	}
 	  
  function Dropdown(options, el) {
@@ -32,6 +33,7 @@
     this.init();
 		this.$placeholder.data("value",this.valueArray); //给select赋值
 		this.$placeholder.text(this.textArray); 
+		this.$submitInput.val(this.valueArray);
  } 
  
   Dropdown.prototype = {
@@ -45,6 +47,7 @@
   		var searchable = this.config.searchable;
   		var templateSearch = searchable? '<span class="dropdown-search">' + this.config.input + '</span>':'';  		
     	return '<a href="javascript:;" class="dropdown-display">'
+    					+'<div class="submit-input"> <input type="text" name="'+this.config.submitValue+'"  style="display:none;"/> </div>'
     					+'<span class="dropdown-chose-list">'
     						+'<span data-value="" class="placeholder">'+ this.config.selectTitle +'</span>'
     					+'</span>'
@@ -60,20 +63,22 @@
   		var $el = this.$el;  		
 	  	this.$clear = $el.find("a.dropdown-clear-all");
 	  	this.$placeholder = $el.find("span.placeholder");
-	  	this.$input = $el.find("input");			
+	  	this.$input = $el.find(".dropdown-search input");		  	
+	  	this.$submitInput = $el.find(".submit-input input");
   	},
   	bindEvent: function(){	//绑定事件  		
-  		var self = this,$el = this.$el;   		  		
+  		var self = this,$el = this.$el , $input = $el.find('.dropdown-search input');   		  		
 	    $(document).click(function(){ //点击其他部位隐藏下拉列表
 		    $el.removeClass('active');	
      	});   	      	
 	  	$el.on('click',function(e){
 	  		e.stopPropagation(); //阻止冒泡
 	  	}).on('click','span.placeholder',function(e){
-  		 	$el.addClass('active').find('input').focus();
+  		 	$el.addClass('active');
+  		 	$input.focus();
 	    }).on('keyup click', '.dropdown-search input',this.Bind(function (e) { //输入数据后操作
 	  		this.config.pageIndex = 1;
-	  		this.config.keyword = $el.find('input').val();   
+	  		this.config.keyword = $input.val();   
 	  		this.ajaxInit();
 	  	})).on('click','.dropdown-pagenext',this.Bind(function (e) { //下一页
 	  		if(this._tdrAjaxdata.TotalPage>this.config.pageIndex){
@@ -88,7 +93,8 @@
 	  	}));	  	
 	  	
 	  	this.$clear.on("click",function(){
-	  		self.$placeholder.text('请选择品牌').data("value",null);	
+	  		self.$placeholder.text(self.config.selectTitle).data("value",null);	
+	  		self.$submitInput.val(null);
 	  		self.$input.val(null);	  		
 	  		self.textArray=[];
 				self.valueArray=[];
@@ -128,7 +134,8 @@
  							self.textArray.splice($.inArray(String(text),self.textArray),1);
 							self.valueArray.splice($.inArray(String(value),self.valueArray),1);									
  						}
-	 					self.$placeholder.text(self.textArray[0] ? self.textArray.toString():"请选择品牌");		 			
+	 					self.$placeholder.text(self.textArray[0] ? self.textArray.toString(): self.config.selectTitle);	
+	 					self.$submitInput.val(self.valueArray);
 	 					self.$placeholder.data("value",self.valueArray);	
 	 	 		});
  	 	});
@@ -206,7 +213,7 @@
 	},
 	initDropdownChose:function(data){ // 重置列表选中状态,和选中数据显示
 		var valueArray = this.valueArray, $li = this.$el.find("li");
-		this.$placeholder.text(this.textArray.toString());
+		this.$placeholder.text(this.textArray[0] ? this.textArray.toString(): this.config.selectTitle);
 		$li.each(function(){			
 			if(valueArray.indexOf(String($(this).data("value")))!=-1){
 				$(this).addClass("dropdown-chose");
