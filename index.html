@@ -25,40 +25,60 @@
     <div class="row">
 		 <div class="col-sm-4">
     	 <div class="text-info">单选模式，Option渲染</div><br>
-	     <div class="dropdown-sin-1 dropdown-single">
-	          <select placeholder="请选择：测试placeholder" multiple></select>		        
-	        </div>
-	      </div>
+	     <div class="dropdown-sin-1 dropdown-single"></div>
+  	 </div>
+  	 <button type="button" id="getValue" >获取value</button>
+  	 <button type="button" id="getText" >获取text</button>
     </div>
   </form>
   <script>
-  	$(function(){
+
+  	$(function(){		
+  		
   		$(".dropdown-sin-1").dropdown({
-  			 selectTitle: '请选择品牌',
-  			 input: '<input type="text" maxLength="20" placeholder="请输入品牌">' ,
-  			 searchNoData: '<li style="color:#ddd">查无数据</li>',
-  			 keyword:  $('.dropdown-sin-1 select').text(), //现有的select值
-  			 valueName: "BrandId", //select中OPTION的值
-  			 nameName: "BrandName", //select中option的显示
-  			 searchable: true, //查询功能 ,默认为true
-  			 ajax:{
-			 	  	url:'http://10.130.0.205:8292/vehiclebrand/getpagedlist', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
-        		type:"get",  
-    		 		dataType:"json", 
-        		data:{
-        			brandname:'keyword',  
-        			pageindex: 'pageIndex',
-        			pagesize:10
-        		},
-        		success:function(data){
-        			_tdrAjaxdata = data; //将ajax数据存储到当前的dom
-        		}, 
-					  error:function(){ 
+  			 selectTitle: '请选择品牌'
+  			 ,input: '<input type="text" maxLength="20" placeholder="请输入品牌">' 
+  			 ,searchNoData: '<li style="color:#ddd">查无数据</li>'
+  			 ,valueName: "BrandId" //select中OPTION的值
+  			 ,nameName: "BrandName" //select中option的显示  			 
+  			 ,selectInfo: { //编辑时候已有的数据赋值
+	  			value: ["84"]
+  			 	,text: "新霸电动车"
+  			 }
+  			 ,searchable: true //查询功能 ,默认为true
+  			 ,ismultiterm: true // 是否多选
+  			 ,ajax:{
+			 	  	url:'http://10.130.0.205:8292/vehiclebrand/getpagedlist' //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
+        		,type:"get"  
+    		 		,dataType:"json" 
+        		,data:{
+        			brandname:'keyword'  
+        			,pageindex: 'pageIndex'
+        			,pagesize:10
+        		}
+        		,success:function(data){     			
+        			$(".dropdown-sin-1").data("dropdown")._tdrAjaxdata = data; //将ajax数据存储到当前的dom
+        		}
+					  ,error:function(){ 
 					    console.log("error") 
 					  } 
         	}
-  		})
+  		});
+  		
+  		$("#getValue").click(function(){
+  			console.log($(".dropdown-sin-1").data("dropdown").getSelectValue()); 
+  		});
+  		
+			$("#getText").click(function(){
+  			console.log(	$(".dropdown-sin-1").data("dropdown").getSelectText());
+  		});
+  		
+  		
+  		
+  	
+  		
   	});
+
  
 
   </script>
