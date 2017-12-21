@@ -19,51 +19,49 @@ ajax加载的模糊查询动态生成列表的select
 * 标签定义
 
 ```html
-	<!--单选模式-->
   <form action="">
     <div class="row">
 		 <div class="col-sm-4">
     	 <div class="text-info">单选模式，Option渲染</div><br>
-	     <div class="dropdown-sin-1 dropdown-single">
-	          <select placeholder="请选择：测试placeholder"></select>		        
-	        </div>
-	      </div>
+	     <div class="dropdown-sin-1 dropdown-single"></div> 
+  	 </div>  	
     </div>
   </form>
-  
- <!--多选-->
- <select placeholder="请选择：测试placeholder" multiple></select>	
+  	
 ```
 * 插件使用
 
 ```javascript
- 	$(function(){
-	 	$(".dropdown-sin-1").dropdown({
-	  			 selectTitle: '请选择品牌',
-	  			 input: '<input type="text" maxLength="20" placeholder="请输入品牌">' ,
-	  			 searchNoData: '<li style="color:#ddd">查无数据</li>',
-	  			 keyword:  $('.dropdown-sin-1 select').text(), //现有的select值
-	  			 valueName: "BrandId", //select中OPTION的值
-	  			 nameName: "BrandName", //select中option的显示
-	  			 searchable: true, //查询功能 ,默认为true
-	  			 ajax:{
-				 	  	url:'http://10.130.0.205:8292/vehiclebrand/getpagedlist', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
-	        		type:"get",  
-	    		 		dataType:"json", 
-	        		data:{
-	        			brandname:'keyword',  
-	        			pageindex: 'pageIndex',
-	        			pagesize:10
-	        		},
-	        		success:function(data){
-	        			_tdrAjaxdata = data; //将ajax数据存储到当前的dom
-	        		}, 
-						  error:function(){ 
-						    console.log("error") 
-						  } 
-	        	}
-	  		})
-  		})
-  	});
+ 	$(".dropdown-sin-1").dropdown({
+		 selectTitle: '品牌', //'请选择'+品牌
+		 regReplace: {"value":"BrandId","name":"BrandName"}, //给select赋值时候对应的字段
+		 submitValue: "BrandId" ,//提交时候input的name值
+			 selectInfo: { //初始select值
+	  			value: ["84"],
+			 		text: ["新霸电动车"]
+			 },
+		 searchable: true, //查询功能 ,默认为true
+		 ismultiterm: true ,// 是否多选,默认为true
+		 ajax:{
+		 	  	url:'http://10.130.0.205:8292/vehiclebrand/getpagedlist', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
+    		type:"get"  ,
+		 		dataType:"json" ,
+    		data:{
+    			brandname:'keyword',
+    			pageindex: 'pageIndex',
+    			pagesize:10 // 当前每页显示多少条
+    		},
+    		success:function(data){           			
+    			$(".dropdown-sin-1").data("dropdown")._tdrAjaxdata = {
+    				PageIndex	: data.PageIndex, //当前页码
+							TotalItem: data.TotalItem, //共有多少条数据
+							Data: data.Data //获取到拿来操作的数组列表
+    			}
+    		},        		
+				  error:function(){ 
+				    console.log("error") 
+				  } 
+			}
+	});	
 ```
 
