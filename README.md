@@ -53,7 +53,7 @@ ajax加载的模糊查询动态生成列表的select
     		},
     		success:function(data){           			
     			$(".dropdown-sin-1").data("dropdown")._tdrAjaxdata = {
-    				PageIndex	: data.PageIndex, //当前页码
+    				PageIndex: data.PageIndex, //当前页码
 						TotalItem: data.TotalItem, //共有多少条数据
 						Data: data.Data //获取到拿来操作的数组列表
     			}
