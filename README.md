@@ -43,7 +43,7 @@ ajax加载的模糊查询动态生成列表的select
 		 searchable: true, //查询功能 ,默认为true
 		 ismultiterm: true ,// 是否多选,默认为true
 		 ajax:{
-		 	  	url:'http://10.130.0.205:8292/vehiclebrand/getpagedlist', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
+		 	  url:'http://10.130.0.205:8292/vehiclebrand/getpagedlist', //因ie8跨域问题,接口后台自己加 //输入搜索时候的ajax,初始化时候用原来的value获取当前name显示
     		type:"get"  ,
 		 		dataType:"json" ,
     		data:{
@@ -54,13 +54,13 @@ ajax加载的模糊查询动态生成列表的select
     		success:function(data){           			
     			$(".dropdown-sin-1").data("dropdown")._tdrAjaxdata = {
     				PageIndex	: data.PageIndex, //当前页码
-							TotalItem: data.TotalItem, //共有多少条数据
-							Data: data.Data //获取到拿来操作的数组列表
+						TotalItem: data.TotalItem, //共有多少条数据
+						Data: data.Data //获取到拿来操作的数组列表
     			}
     		},        		
-				  error:function(){ 
-				    console.log("error") 
-				  } 
+			  error:function(){ 
+			    console.log("error") 
+			  } 
 			}
 	});	
 ```
