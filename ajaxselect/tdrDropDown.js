@@ -19,16 +19,18 @@
 	,keyword:""
   };
 
-	function type(obj){ //检测基本类型
+  var Dropdown = function(options, el) {
+  	var type = function(obj){ //检测基本类型
 		return Object.prototype.toString.call(obj);
 	}
-	  
-  var Dropdown = function(options, el) {
+    var textHandle = function(info){		
+		return type(info?info:"") == "[object Array]"?info:String(info).split(",");
+	};
     this.$el = $(el);
     this.config = options; 
-    this.input =  '<input type="text" maxLength="20" placeholder="请输入'+this.config.selectTitle+'">';
-	this.textArray = type(this.config.selectInfo.text?this.config.selectInfo.text:[]) == "[object Array]"?this.config.selectInfo.text:this.config.selectInfo.text.split(",");
-	this.valueArray = type(this.config.selectInfo.value?this.config.selectInfo.value:[]) == "[object Array]"?this.config.selectInfo.value:this.config.selectInfo.value.split(",");
+    this.input =  '<input type="text" maxLength="20" placeholder="请输入'+this.config.selectTitle+'">';    
+	this.textArray = textHandle(this.config.selectInfo.text);
+	this.valueArray = textHandle(this.config.selectInfo.value);
 	this.selectTitle = "请选择" + this.config.selectTitle;
 	this.init();
 	this.$placeholder.data("value",this.valueArray); //给select赋值
