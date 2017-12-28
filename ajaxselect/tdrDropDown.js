@@ -20,11 +20,11 @@
   };
 
   var Dropdown = function(options, el) {
-  	var type = function(obj){ //检测基本类型
-		return Object.prototype.toString.call(obj);
-	}
+//	var type = function(obj){ //检测基本类型
+//		return Object.prototype.toString.call(obj);
+//	}
     var textHandle = function(info){		
-		return type(info?info:"") == "[object Array]"?info:String(info).split(",");
+		return (info instanceof Array)?info:"" == "[object Array]"?info:String(info).split(",");
 	};
     this.$el = $(el);
     this.config = options; 
@@ -95,13 +95,9 @@
 	 			}	 			
 	  	}));	  	
 	  	
-	  	this.$clear.on("click",function(){
-	  		self.$placeholder.text(self.selectTitle).data("value",null);	
-	  		self.$submitInput.val(null);
-	  		self.$input.val(null);	  		
-	  		self.textArray=[];
-				self.valueArray=[];
-				$el.find("li").removeClass("dropdown-chose");
+	  	this.$clear.on("click",function(){	  	
+	  		self.clearSelect();
+			$el.find("li").removeClass("dropdown-chose");
 	  	});
   	},
   	ajaxInit:function(){ //调用ajax方法获取数据
@@ -233,6 +229,13 @@
  	},
  	getSelectText :function(){ //获取当前选中的值的text
  		return this.$el.find("span.placeholder").text();
+ 	},
+ 	clearSelect: function(){ 		
+ 		this.$placeholder.text(this.selectTitle).data("value",null);	
+  		this.$submitInput.val(null);
+  		this.$input.val(null);	  		
+  		this.textArray=[];
+		this.valueArray=[];
  	},
 	Bind: function (handler, obj) {//通过bind改变对象的上下文结构
 	    if (obj == undefined) obj = this;

@@ -27,8 +27,9 @@
     	 <div class="text-info">因数据是随便搞的一个json,测试分页请用有效链接</div><br>
 	     <div class="dropdown-sin-1 dropdown-single"></div>
   	 </div>
-  	 <button type="button" id="getValue" >获取value</button>
-  	 <button type="button" id="getText" >获取text</button>
+  	 <button type="button" id="getValue" onclick="getSelectValue()">获取value</button>
+  	 <button type="button" id="getText" onclick="getSelectText()">获取text</button>
+  	 <button type="button" id="clear" onclick="clearSelect()">清除查询条件</button>
     </div>
   </form>
   <script>
@@ -39,8 +40,8 @@
   			 regReplace: {"value":"BrandId","name":"BrandName"}, //给select赋值时候对应的字段
   			 submitValue: "BrandId" ,//提交时候input的name值
 				 selectInfo: { //初始select值
-		  			value: 6,
-				 		text: ["雅迪"]
+		  			value: "6",
+				 		text: "雅格"
 				 },
   			 searchable: true, //查询功能 ,默认为true
   			 ismultiterm: true ,// 是否多选,默认为true
@@ -66,20 +67,10 @@
         	}
   		});
   		
-  		$("#getValue").click(function(){
-  			console.log($(".dropdown-sin-1").data("dropdown").getSelectValue()); 
-  		});
-  		
-			$("#getText").click(function(){
-  			console.log(	$(".dropdown-sin-1").data("dropdown").getSelectText());
-  		});
-  		
-  		
-  		
-  	
-  		
   	});
-
+		function getSelectValue(){console.log($(".dropdown-sin-1").data("dropdown").getSelectValue())};
+		function getSelectText(){console.log($(".dropdown-sin-1").data("dropdown").getSelectText())};
+		function clearSelect(){$(".dropdown-sin-1").data("dropdown").clearSelect();}
  
 
   </script>
