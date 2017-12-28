@@ -96,8 +96,7 @@
 	  	}));	  	
 	  	
 	  	this.$clear.on("click",function(){	  	
-	  		self.clearSelect();
-			$el.find("li").removeClass("dropdown-chose");
+	  		self.clearSelect();			
 	  	});
   	},
   	ajaxInit:function(){ //调用ajax方法获取数据
@@ -236,6 +235,7 @@
   		this.$input.val(null);	  		
   		this.textArray=[];
 		this.valueArray=[];
+		this.$el.find("li").removeClass("dropdown-chose");
  	},
 	Bind: function (handler, obj) {//通过bind改变对象的上下文结构
 	    if (obj == undefined) obj = this;
